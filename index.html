@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário dos Campos de Batalha — Caverna das Guerreiras</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'DM Sans',sans-serif;background:#0c0b08;color:#f0ebe8;min-height:100vh}
+
+/* ===== WRAPPER ===== */
+.cb-wrapper{max-width:760px;margin:0 auto;padding:2rem 1.2rem 3rem}
+
+/* ===== HERO ===== */
+.cb-hero{text-align:center;padding:1rem 0 2rem}
+.cb-foto-placeholder{width:110px;height:110px;border-radius:50%;margin:0 auto 1rem;overflow:hidden;background:linear-gradient(160deg,#1a160e,#0c0b08);border:2px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;color:rgba(201,168,76,0.5)}
+.cb-foto-placeholder img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.cb-nome{display:block;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;margin-bottom:0.8rem}
+.cb-titulo{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:#f0ebe8;line-height:1.15;margin-bottom:0.6rem}
+.cb-titulo em{color:#c9a84c;font-style:italic}
+.cb-subtitulo{font-size:13px;color:rgba(240,235,232,0.5);letter-spacing:0.3px}
+
+/* ===== EXPLICAÇÃO ===== */
+.cb-explicacao{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:1rem 1.2rem;margin-bottom:2rem}
+.cb-explicacao p{font-size:13px;color:rgba(240,235,232,0.6);line-height:1.6;margin:0}
+.cb-explicacao strong{color:#c9a84c}
+.cb-periodo-wrap{text-align:center;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(201,168,76,0.15)}
+.cb-periodo{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:#c9a84c;letter-spacing:0.5px}
+.cb-periodo-sub{font-size:12px;color:rgba(240,235,232,0.5);margin-top:0.3rem}
+
+/* ===== MESES / CARDS ===== */
+.campo-mes-bloco{margin-bottom:2rem}
+.campo-mes-titulo{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(201,168,76,0.2)}
+.campo-mes-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.campo-mes-grid{grid-template-columns:1fr}}
+
+.campo-card{background:#fff;border:1px solid rgba(138,95,53,0.15);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:0.5rem;transition:all 0.2s;position:relative;overflow:hidden}
+.campo-card.concluido{border-color:rgba(201,168,76,0.35);background:#fffdf9}
+.campo-badge-pendente{display:inline-block;background:linear-gradient(135deg,#c9a84c,#9c7f2e);color:#f0ebe8;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600;white-space:nowrap;box-shadow:0 2px 8px rgba(201,168,76,0.3);margin-top:0.4rem}
+.campo-card-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.campo-num{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9c7f2e}
+.campo-data{font-size:11px;color:#1a160e;font-weight:600}
+.campo-data.vazio{color:rgba(5,17,43,0.3)}
+.campo-nome{font-size:13px;font-weight:600;color:#1a160e;line-height:1.3}
+.campo-tema{font-size:12px;color:#4a4238;font-style:italic}
+.campo-tema-rotulo{color:#c9a84c;font-style:italic}
+.campo-tema.vazio{color:rgba(5,17,43,0.25)}
+.campo-link-gravacao{display:inline-block;font-size:11px;font-weight:600;color:#9c7f2e;text-decoration:none;border:1px solid rgba(201,168,76,0.35);border-radius:6px;padding:4px 10px;margin-top:0.4rem;transition:all 0.15s}
+.campo-link-gravacao:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.6)}
+.campo-participacao{margin-top:0.3rem}
+.campo-part-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(5,17,43,0.4);margin-bottom:0.4rem}
+.campo-part-opcoes{display:flex;flex-wrap:wrap;gap:4px}
+.campo-btn{background:transparent;border:1px solid rgba(138,95,53,0.2);border-radius:6px;padding:4px 8px;font-size:11px;color:rgba(5,17,43,0.5);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.campo-btn:hover{border-color:rgba(201,168,76,0.4);color:#1a160e}
+.campo-btn.ativo{background:linear-gradient(135deg,#1a160e,#0c0b08);border-color:#1a160e;color:#f0ebe8}
+.campo-btn.ativo.azul{background:linear-gradient(135deg,#2D8CFF,#1a6fd4);border-color:#2D8CFF;color:#fff}
+.campo-btn.ativo.vermelha{background:linear-gradient(135deg,#E53935,#b71c1c);border-color:#E53935;color:#fff}
+
+</style>
+</head>
+<body>
+
+<div class="cb-wrapper">
+
+  <div class="cb-hero">
+    <div class="cb-foto-placeholder" id="cb-avatar">
+      <img src="fotos/jade.jpg" alt="Jade Torres" onerror="this.style.display='none';this.parentElement.innerHTML='⚔'">
+    </div>
+    <span class="cb-nome">Caverna das Guerreiras · Jade Torres</span>
+    <h1 class="cb-titulo">Calendário dos <em>Campos de Batalha</em></h1>
+    <p class="cb-subtitulo">Os Campos enriquecem e aceleram a evolução do seu projeto digital</p>
+  </div>
+
+  <div class="cb-explicacao">
+    <p><strong>Como vai funcionar esse semestre:</strong> Serão 24 campos em 6 meses. A cada mês acontecerá 4 Campos de Batalha ao vivo e práticos, com participação de guerreiras modelos. Quem não puder assistir ao vivo assiste pela gravação.</p>
+  </div>
+
+  <div class="cb-periodo-wrap">
+    <div class="cb-periodo">Segundo Semestre 2026</div>
+    <div class="cb-periodo-sub">Acompanhe e organize abaixo sua participação nos campos.</div>
+  </div>
+
+  <div id="campos-container">
+    <!-- Gerado pelo JS -->
+  </div>
+
+</div>
+
+<script>
+/* ===== CAMPOS DE BATALHA ===== */
+var CAMPOS = [
+  // MÊS 1
+  {mes:1,n:1,nome:"Campo de Funil de Captação",tema:"Como criar um artefato inteligente no Claude AI que transforma público-alvo em clientes qualificados",data:"01/07/2026 · 20h",dia:"Quarta",caverna:"vermelha",linkGravacao:"https://youtu.be/GiexZtzFxW8"},
+  {mes:1,n:2,nome:"Campo de Linha Editorial",tema:"Como construir estoques, fichas de produção e organizar distribuição de conteúdo no App Cubo Mágico",data:"08/07/2026 · 20h",dia:"Quarta",caverna:"azul"},
+  {mes:1,n:3,nome:"Campo de Funil de Vendas",tema:"",data:"15/07/2026 · 20h",dia:"Quarta"},
+  {mes:1,n:4,nome:"Campo de CRM e Entrega",tema:"",data:"22/07/2026 · 20h",dia:"Quarta"},
+  // MÊS 2
+  {mes:2,n:5,nome:"Campo de Método Autoral",tema:"",data:"29/07/2026 · 20h",dia:"Quarta"},
+  {mes:2,n:6,nome:"Campo de Produto e Programa",tema:"",data:"05/08/2026 · 20h",dia:"Quarta"},
+  {mes:2,n:7,nome:"Campo de Funil de Vendas",tema:"",data:"12/08/2026 · 20h",dia:"Quarta"},
+  {mes:2,n:8,nome:"Campo de CRM e Entrega",tema:"",data:"19/08/2026 · 20h",dia:"Quarta"},
+  // MÊS 3
+  {mes:3,n:9,nome:"Campo de Método Autoral",tema:"",data:"26/08/2026 · 20h",dia:"Quarta"},
+  {mes:3,n:10,nome:"Campo de Produto e Programa",tema:"",data:"02/09/2026 · 20h",dia:"Quarta"},
+  {mes:3,n:11,nome:"Campo de Funil de Vendas",tema:"",data:"09/09/2026 · 20h",dia:"Quarta"},
+  {mes:3,n:12,nome:"Campo de CRM e Entrega",tema:"",data:"16/09/2026 · 20h",dia:"Quarta"},
+  // MÊS 4
+  {mes:4,n:13,nome:"Campo de Método Autoral",tema:"",data:"23/09/2026 · 20h",dia:"Quarta"},
+  {mes:4,n:14,nome:"Campo de Produto e Programa",tema:"",data:"30/09/2026 · 20h",dia:"Quarta"},
+  {mes:4,n:15,nome:"Campo de Funil de Vendas",tema:"",data:"07/10/2026 · 20h",dia:"Quarta"},
+  {mes:4,n:16,nome:"Campo de CRM e Entrega",tema:"",data:"14/10/2026 · 20h",dia:"Quarta"},
+  // MÊS 5
+  {mes:5,n:17,nome:"Campo de Método Autoral",tema:"",data:"21/10/2026 · 20h",dia:"Quarta"},
+  {mes:5,n:18,nome:"Campo de Produto e Programa",tema:"",data:"28/10/2026 · 20h",dia:"Quarta"},
+  {mes:5,n:19,nome:"Campo de Funil de Vendas",tema:"",data:"04/11/2026 · 20h",dia:"Quarta"},
+  {mes:5,n:20,nome:"Campo de CRM e Entrega",tema:"",data:"11/11/2026 · 20h",dia:"Quarta"},
+  // MÊS 6
+  {mes:6,n:21,nome:"Campo de Método Autoral",tema:"",data:"18/11/2026 · 20h",dia:"Quarta"},
+  {mes:6,n:22,nome:"Campo de Produto e Programa",tema:"",data:"25/11/2026 · 20h",dia:"Quarta"},
+  {mes:6,n:23,nome:"Campo de Funil de Vendas",tema:"",data:"02/12/2026 · 20h",dia:"Quarta"},
+  {mes:6,n:24,nome:"Campo de CRM e Entrega",tema:"",data:"09/12/2026 · 20h",dia:"Quarta"}
+];
+
+var CAMPOS_KEY = 'campos_batalha_data';
+var NOMES_MES = {1:'JULHO', 2:'AGOSTO', 3:'SETEMBRO', 4:'OUTUBRO', 5:'NOVEMBRO', 6:'DEZEMBRO'};
+
+function loadSaved() {
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(CAMPOS_KEY) || '{}'); } catch(e) {}
+  // normaliza registros salvos no formato antigo (string simples) pro formato objeto atual
+  Object.keys(saved).forEach(function(k) {
+    if (typeof saved[k] === 'string') {
+      saved[k] = { tipo: saved[k] };
+    }
+  });
+  return saved;
+}
+
+function buildCampos() {
+  var container = document.getElementById('campos-container');
+  if (!container) return;
+  var saved = loadSaved();
+
+  var mesAtual = 0;
+  var html = '';
+
+  CAMPOS.forEach(function(campo) {
+    if (campo.mes !== mesAtual) {
+      if (mesAtual > 0) html += '</div></div>';
+      mesAtual = campo.mes;
+      html += '<div class="campo-mes-bloco">' +
+        '<div class="campo-mes-titulo">MÊS ' + campo.mes + ' · ' + NOMES_MES[campo.mes] + '</div>' +
+        '<div class="campo-mes-grid">';
+    }
+
+    var registro = saved['campo_' + campo.n] || {};
+    var tipo = registro.tipo || '';
+    var cardStatus = tipo ? 'concluido' : '';
+    var badgePendente = tipo ? '' : '<div class="campo-badge-pendente">⏳ Aguardando participação</div>';
+    var cavernaTag;
+    if (campo.caverna === 'azul') {
+      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#2D8CFF;font-weight:600">● Caverna Azul</span>';
+    } else if (campo.caverna === 'vermelha') {
+      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#E53935;font-weight:600">● Caverna Vermelha</span>';
+    } else {
+      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-weight:600">○ Caverna a definir</span>';
+    }
+    html += '<div class="campo-card ' + cardStatus + '" id="campo-card-' + campo.n + '">' +
+      '<div class="campo-card-header">' + cavernaTag +
+        '<span class="campo-num">Campo ' + campo.n + '</span>' +
+        (campo.data ? '<span class="campo-data">Data: ' + campo.data + '</span>' : '<span class="campo-data vazio">Data: em breve</span>') +
+      '</div>' +
+      '<div class="campo-nome">' + campo.nome + '</div>' +
+      (campo.tema ? '<div class="campo-tema"><span class="campo-tema-rotulo">Tema:</span> ' + campo.tema + '</div>' : '<div class="campo-tema vazio">Tema: em breve</div>') +
+      (campo.linkGravacao ? '<a class="campo-link-gravacao" href="' + campo.linkGravacao + '" target="_blank" rel="noopener">▶ Assistir gravação no YouTube</a>' : '') +
+      '<div class="campo-participacao">' +
+        '<div class="campo-part-label">Como você participou?</div>' +
+        '<div class="campo-part-opcoes">' +
+          '<button class="campo-btn ' + (tipo === 'presente' ? 'ativo ' + (campo.caverna || '') : '') + '" onclick="marcarCampo(' + campo.n + ',\'presente\')">👥 Assisti ao vivo</button>' +
+          '<button class="campo-btn ' + (tipo === 'gravacao' ? 'ativo ' + (campo.caverna || '') : '') + '" onclick="marcarCampo(' + campo.n + ',\'gravacao\')">📽 Assisti a gravação</button>' +
+        '</div>' +
+        badgePendente +
+      '</div>' +
+    '</div>';
+  });
+
+  if (mesAtual > 0) html += '</div></div>';
+  container.innerHTML = html;
+}
+
+function marcarCampo(n, tipo) {
+  var saved = loadSaved();
+  var registro = saved['campo_' + n] || {};
+  registro.tipo = tipo;
+  saved['campo_' + n] = registro;
+  localStorage.setItem(CAMPOS_KEY, JSON.stringify(saved));
+  buildCampos();
+}
+
+buildCampos();
+/* ===== FIM CAMPOS DE BATALHA ===== */
+</script>
+
+</body>
+</html>
