@@ -38,9 +38,9 @@ html,body{font-family:'DM Sans',sans-serif;background:#0c0b08;color:#f0ebe8;min-
 .campo-card{background:#fff;border:1px solid rgba(138,95,53,0.15);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:0.5rem;transition:all 0.2s;position:relative;overflow:hidden}
 .campo-card.concluido{border-color:rgba(201,168,76,0.35);background:#fffdf9}
 .campo-badge-pendente{display:inline-block;background:linear-gradient(135deg,#c9a84c,#9c7f2e);color:#f0ebe8;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600;white-space:nowrap;box-shadow:0 2px 8px rgba(201,168,76,0.3);margin-top:0.4rem}
-.campo-card-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
-.campo-num{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9c7f2e}
-.campo-data{font-size:11px;color:#1a160e;font-weight:600}
+.campo-card-header{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden}
+.campo-num{font-size:9px;letter-spacing:0.5px;text-transform:uppercase;color:#9c7f2e;white-space:nowrap;flex-shrink:0}
+.campo-data{font-size:10px;color:#1a160e;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1;min-width:0}
 .campo-data.vazio{color:rgba(5,17,43,0.3)}
 .campo-nome{font-size:13px;font-weight:600;color:#1a160e;line-height:1.3}
 .campo-tema{font-size:12px;color:#4a4238;font-style:italic}
@@ -99,7 +99,7 @@ var CAMPOS = [
   {mes:2,n:5,nome:"Campo de Método Autoral",tema:"PROJETOS: a memória do seu negócio dentro do Claude",data:"05/08/2026 · 20h",dia:"Quarta",caverna:"azul",linkGravacao:"https://youtu.be/lMurMuCusF4"},
   {mes:2,n:6,nome:"Campo Ferramentas do Método no Claude AI",tema:"Cubo App de Anúncios",data:"12/08/2026 · 20h",dia:"Quarta",caverna:"vermelha",linkGravacao:"https://youtu.be/0MhEh8mqplw"},
   {mes:2,n:7,nome:"Campo de Funil de Vendas",tema:"Extração: transformar seus projetos em ferramentas",data:"19/08/2026 · 20h",dia:"Quarta",caverna:"azul",linkGravacao:"https://youtu.be/okqvoZDFxF4"},
-  {mes:2,n:8,nome:"Campo de CRM e Entrega",tema:"Cubo Mágico: produza no Claude",data:"26/08/2026 · 20h",dia:"Quarta",caverna:"azul"},
+  {mes:2,n:8,nome:"Campo de CRM e Entrega",tema:"Construa o CRM no Claude e organize os leads no WhatsApp",data:"26/08/2026 · 16h",dia:"Quarta",caverna:"vermelha",linkGravacao:"https://youtu.be/AC754xGd-I8"},
   // MÊS 3
   {mes:3,n:9,nome:"Campo de Método Autoral",tema:"",data:"02/09/2026 · 20h",dia:"Quarta"},
   {mes:3,n:10,nome:"Campo de Produto e Programa",tema:"",data:"09/09/2026 · 20h",dia:"Quarta"},
@@ -160,16 +160,16 @@ function buildCampos() {
     var badgePendente = tipo ? '' : '<div class="campo-badge-pendente">⏳ Aguardando participação</div>';
     var cavernaTag;
     if (campo.caverna === 'azul') {
-      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#2D8CFF;font-weight:600">● Caverna Azul</span>';
+      cavernaTag = '<span style="font-size:8px;letter-spacing:0.3px;text-transform:uppercase;color:#2D8CFF;font-weight:600;white-space:nowrap;flex-shrink:0">● Caverna Azul</span>';
     } else if (campo.caverna === 'vermelha') {
-      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#E53935;font-weight:600">● Caverna Vermelha</span>';
+      cavernaTag = '<span style="font-size:8px;letter-spacing:0.3px;text-transform:uppercase;color:#E53935;font-weight:600;white-space:nowrap;flex-shrink:0">● Caverna Vermelha</span>';
     } else {
-      cavernaTag = '<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-weight:600">○ Caverna a definir</span>';
+      cavernaTag = '<span style="font-size:8px;letter-spacing:0.3px;text-transform:uppercase;color:rgba(201,168,76,0.45);font-weight:600;white-space:nowrap;flex-shrink:0">○ Caverna a definir</span>';
     }
     html += '<div class="campo-card ' + cardStatus + '" id="campo-card-' + campo.n + '">' +
       '<div class="campo-card-header">' + cavernaTag +
         '<span class="campo-num">Campo ' + campo.n + '</span>' +
-        (campo.data ? '<span class="campo-data">Data: ' + campo.data + '</span>' : '<span class="campo-data vazio">Data: em breve</span>') +
+        (campo.data ? '<span class="campo-data">' + campo.data + '</span>' : '<span class="campo-data vazio">Em breve</span>') +
       '</div>' +
       '<div class="campo-nome">' + campo.nome + '</div>' +
       (campo.tema ? '<div class="campo-tema"><span class="campo-tema-rotulo">Tema:</span> ' + campo.tema + '</div>' : '<div class="campo-tema vazio">Tema: em breve</div>') +
